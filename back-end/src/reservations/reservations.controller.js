@@ -34,8 +34,13 @@ const hasRequiredProperties = hasProperties(
 // }
 
 async function list(req, res) {
-	const data = await service.list();
-	res.json({ data });
+	if (req.query.date) {
+		const data = await service.listWithQuery(req.query.date);
+		res.json({ data });
+	} else {
+		const data = await service.list();
+		res.json({ data });
+	}
 }
 
 async function create(req, res) {
