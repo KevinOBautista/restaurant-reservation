@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { createReservation } from "../utils/api";
 
@@ -118,6 +118,7 @@ function ReservationForm() {
 				{errorMessage && (
 					<div className="alert alert-danger">{errorMessage}</div>
 				)}
+
 				<button onClick={cancelHandler} className="btn btn-secondary mr-2">
 					Cancel
 				</button>

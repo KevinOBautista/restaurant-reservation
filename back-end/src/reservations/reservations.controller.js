@@ -12,26 +12,12 @@ const hasRequiredProperties = hasProperties(
 	"reservation_time",
 	"people"
 );
-
-// function checkProperty(req, res, next) {
-// 	const { data = {} } = req.body;
-// 	console.log("***************", typeof data[people], "***************");
-// 	try {
-// 		if (typeof data[people] !== "number") {
-// 			const error = new Error(`Property people is not a number`);
-// 			error.status = 400;
-// 			throw error;
-// 		}
-// 		next();
-// 	} catch (error) {
-// 		next(error);
-// 	}
-// 	// if(typeof propertyName !== type){
-// 	//   const error = new Error(`${propertyName} is not type ${type}`)
-// 	//   error.status = 400
-// 	//   throw error
-// 	// }
-// }
+const checkProperty = require("../errors/checkProperty");
+const hasCheckedProperties = checkProperty(
+	["date", "number"],
+	["reservation_date", "people"]
+);
+const timeValidation = require("../errors/timeValidation");
 
 async function list(req, res) {
 	if (req.query.date) {
@@ -50,5 +36,10 @@ async function create(req, res) {
 
 module.exports = {
 	list: asyncErrorBoundary(list),
-	create: [hasRequiredProperties, asyncErrorBoundary(create)],
+	create: [
+		asyncErrorBoundary(hasRequiredProperties),
+		asyncErrorBoundary(hasCheckedProperties),
+		asyncErrorBoundary(timeValidation),
+		asyncErrorBoundary(create),
+	],
 };
