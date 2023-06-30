@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { createReservation } from "../utils/api";
+import ErrorAlert from "../layout/ErrorAlert";
 
 function ReservationForm() {
 	const initialFormData = {
@@ -12,7 +13,7 @@ function ReservationForm() {
 		people: "",
 	};
 	const [formData, setFormData] = useState(initialFormData);
-	const [errorMessage, setErrorMessage] = useState();
+	const [reservationsError, setReservationsError] = useState(null);
 	const history = useHistory();
 
 	function handleChange({ target }) {
@@ -25,7 +26,7 @@ function ReservationForm() {
 		history.goBack();
 	}
 	async function submitHandler(event) {
-		setErrorMessage(null);
+		setReservationsError(null);
 		event.preventDefault();
 		console.log("Submitted with info: ", formData);
 		try {
@@ -33,7 +34,7 @@ function ReservationForm() {
 			setFormData({ ...initialFormData });
 			history.push("/dashboard");
 		} catch (error) {
-			setErrorMessage(error.message);
+			setReservationsError(error);
 		}
 	}
 	return (
@@ -115,10 +116,7 @@ function ReservationForm() {
 						placeholder="Ex: 3"
 					/>
 				</div>
-				{errorMessage && (
-					<div className="alert alert-danger">{errorMessage}</div>
-				)}
-
+				<ErrorAlert error={reservationsError} />
 				<button onClick={cancelHandler} className="btn btn-secondary mr-2">
 					Cancel
 				</button>

@@ -18,6 +18,8 @@ const hasCheckedProperties = checkProperty(
 	["reservation_date", "people"]
 );
 const timeValidation = require("../errors/timeValidation");
+const pastReservation = require("../errors/pastReservation");
+const tuesdayVal = require("../errors/tuesdayVal");
 
 async function list(req, res) {
 	if (req.query.date) {
@@ -30,6 +32,14 @@ async function list(req, res) {
 }
 
 async function create(req, res) {
+	const newReservation = ({
+		first_name,
+		last_name,
+		mobile_number,
+		reservation_date,
+		reservation_time,
+		people,
+	} = req.body.data);
 	const createdReservation = await service.create(req.body.data);
 	res.status(201).json({ data: createdReservation });
 }
@@ -40,6 +50,8 @@ module.exports = {
 		asyncErrorBoundary(hasRequiredProperties),
 		asyncErrorBoundary(hasCheckedProperties),
 		asyncErrorBoundary(timeValidation),
+		asyncErrorBoundary(tuesdayVal),
+		asyncErrorBoundary(pastReservation),
 		asyncErrorBoundary(create),
 	],
 };
