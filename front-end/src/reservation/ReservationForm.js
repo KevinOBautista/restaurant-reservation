@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { createReservation } from "../utils/api";
+import ErrorAlert from "../layout/ErrorAlert";
 
 function ReservationForm() {
 	const initialFormData = {
@@ -12,7 +13,7 @@ function ReservationForm() {
 		people: "",
 	};
 	const [formData, setFormData] = useState(initialFormData);
-	const [errorMessage, setErrorMessage] = useState();
+	const [reservationsError, setReservationsError] = useState(null);
 	const history = useHistory();
 
 	function handleChange({ target }) {
@@ -25,20 +26,21 @@ function ReservationForm() {
 		history.goBack();
 	}
 	async function submitHandler(event) {
-		setErrorMessage(null);
+		setReservationsError(null);
 		event.preventDefault();
-		console.log("Submitted with info: ", formData);
 		try {
+			const date = formData.reservation_date;
+			formData.people = Number(formData.people);
 			await createReservation(formData);
 			setFormData({ ...initialFormData });
-			history.push("/dashboard");
+			history.push(`/dashboard?date=${date}`);
 		} catch (error) {
-			setErrorMessage(error.message);
+			setReservationsError(error);
 		}
 	}
 	return (
 		<div className="createReservation">
-			<h1> ReservationForm</h1>
+			<h1>New Reservation</h1>
 			<form onSubmit={submitHandler}>
 				<div className="mb-3">
 					<label htmlFor="first_name">First Name</label>
@@ -70,11 +72,10 @@ function ReservationForm() {
 						className="form-control"
 						id="mobile_number"
 						name="mobile_number"
-						type="text"
+						type="tel"
 						onChange={handleChange}
 						value={formData.mobile_number}
 						placeholder="XXX-XXX-XXXX"
-						pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
 					/>
 				</div>
 				<div className="mb-3">
@@ -115,10 +116,7 @@ function ReservationForm() {
 						placeholder="Ex: 3"
 					/>
 				</div>
-				{errorMessage && (
-					<div className="alert alert-danger">{errorMessage}</div>
-				)}
-
+				<ErrorAlert error={reservationsError} />
 				<button onClick={cancelHandler} className="btn btn-secondary mr-2">
 					Cancel
 				</button>
