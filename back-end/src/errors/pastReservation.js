@@ -1,29 +1,21 @@
-function asDateString(date) {
-	return `${date.getFullYear().toString(10)}-${(date.getMonth() + 1)
-		.toString(10)
-		.padStart(2, "0")}-${date.getDate().toString(10).padStart(2, "0")}`;
-}
-function dateValidation(inputDate) {
-	const date = inputDate.split("-");
-	const todays = asDateString(new Date()).split("-");
+function dateValidation(inputDate, time) {
+	const now = new Date();
+	const pastDate = new Date(`${inputDate}T${time}:00`);
 
-	if (date[0] < todays[0]) {
+	if (now > pastDate) {
 		return true;
-	} else if (date[1] < todays[1]) {
-		return true;
-	} else if (date[1] == todays[1]) {
-		if (date[2] < todays[2]) {
-			return true;
-		}
 	} else {
 		return false;
 	}
 }
 function pastReservation(req, res, next) {
 	const date = req.body.data.reservation_date;
-	const error = new Error(`'reservation_date' must be in the future.`);
+	const time = req.body.data.reservation_time;
+	const error = new Error(
+		`'reservation_date' and 'reservation_time' must be in the future.`
+	);
 	error.status = 400;
-	if (dateValidation(date)) {
+	if (dateValidation(date, time)) {
 		throw error;
 	}
 	next();

@@ -28,18 +28,19 @@ function ReservationForm() {
 	async function submitHandler(event) {
 		setReservationsError(null);
 		event.preventDefault();
-		console.log("Submitted with info: ", formData);
 		try {
+			const date = formData.reservation_date;
+			formData.people = Number(formData.people);
 			await createReservation(formData);
 			setFormData({ ...initialFormData });
-			history.push("/dashboard");
+			history.push(`/dashboard?date=${date}`);
 		} catch (error) {
 			setReservationsError(error);
 		}
 	}
 	return (
 		<div className="createReservation">
-			<h1> ReservationForm</h1>
+			<h1>New Reservation</h1>
 			<form onSubmit={submitHandler}>
 				<div className="mb-3">
 					<label htmlFor="first_name">First Name</label>
@@ -71,11 +72,10 @@ function ReservationForm() {
 						className="form-control"
 						id="mobile_number"
 						name="mobile_number"
-						type="text"
+						type="tel"
 						onChange={handleChange}
 						value={formData.mobile_number}
 						placeholder="XXX-XXX-XXXX"
-						pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
 					/>
 				</div>
 				<div className="mb-3">

@@ -41,5 +41,4 @@ function timeValidation(req, res, next) {
 	next();
 }
 
-console.log(closedTime("21:31"));
 module.exports = timeValidation;
