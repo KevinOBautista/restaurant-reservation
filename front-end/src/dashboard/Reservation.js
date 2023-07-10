@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 function Reservation({ reservation }) {
 	const {
@@ -25,6 +26,12 @@ function Reservation({ reservation }) {
 				<p className="card-text">Party Size: {people}</p>
 				<p className="card-text">{mobile_number}</p>
 			</div>
+			<Link
+				className="btn btn-primary mb-2"
+				to={`/reservations/${reservation_id}/seat`}
+			>
+				Seat
+			</Link>
 		</div>
 	);
 }
