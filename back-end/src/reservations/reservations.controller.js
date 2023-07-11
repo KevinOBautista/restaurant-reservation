@@ -21,6 +21,20 @@ const timeValidation = require("../errors/timeValidation");
 const pastReservation = require("../errors/pastReservation");
 const tuesdayVal = require("../errors/tuesdayVal");
 
+async function reservationExists(req, res, next) {
+	const { reservation_id } = req.params;
+	let reservation = await service.read(reservation_id);
+	if (reservation) {
+		res.locals.reservation = reservation;
+		return next();
+	}
+	return next({ status: 404, message: `Reservation cannot be found.` });
+}
+
+function read(req, res) {
+	res.json({ data: res.locals.reservation });
+}
+
 async function list(req, res) {
 	if (req.query.date) {
 		const data = await service.listWithQuery(req.query.date);
@@ -54,4 +68,5 @@ module.exports = {
 		asyncErrorBoundary(pastReservation),
 		asyncErrorBoundary(create),
 	],
+	read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
 };

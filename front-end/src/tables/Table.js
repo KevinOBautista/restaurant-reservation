@@ -1,7 +1,7 @@
 import React from "react";
 
 function Table({ table }) {
-	const { table_id, table_name, capacity } = table;
+	const { table_id, table_name, capacity, occupied } = table;
 	return (
 		<div className="card text-center col-md-6" id={table_id} key={table_id}>
 			<div className="card-header">
@@ -10,8 +10,8 @@ function Table({ table }) {
 			<div className="card-body">
 				<h5 className="card-title">{capacity}</h5>
 				<h5 data-table-id-status={table.table_id}>
-					{table.reservation_id && "Occupied"}
-					{!table.reservation_id && "Free"}
+					{occupied && "Occupied"}
+					{!occupied && "Free"}
 				</h5>
 			</div>
 		</div>

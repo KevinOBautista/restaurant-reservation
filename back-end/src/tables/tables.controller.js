@@ -28,6 +28,13 @@ function tableVal(req, res, next) {
 async function checkTable(req, res, next) {
 	const reservation_id = req.body.data.reservation_id;
 	const reservation = await service.readReservation(reservation_id);
+	console.log("Reservation: ", reservation);
+	if (!reservation) {
+		return next({
+			status: 404,
+			message: `Reservation ${reservation_id} cannot be found.`,
+		});
+	}
 	const table = res.locals.table;
 	if (table.capacity < reservation.people) {
 		const error = new Error(
@@ -36,7 +43,7 @@ async function checkTable(req, res, next) {
 		error.status = 400;
 		throw error;
 	}
-	if (table.reservation_id) {
+	if (table.occupied) {
 		const error = new Error(`Table is occupied`);
 		error.status = 400;
 		throw error;
@@ -72,6 +79,7 @@ async function update(req, res) {
 	const updatedTable = {
 		...res.locals.table,
 		...req.body.data,
+		occupied: true,
 	};
 	const data = await service.update(updatedTable);
 	res.json({ data });
