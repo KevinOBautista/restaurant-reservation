@@ -21,10 +21,17 @@ function update(table) {
 function readReservation(reservationId) {
 	return knex("reservations").where({ reservation_id: reservationId }).first();
 }
+
+function destroy(table_id) {
+	return knex("tables")
+		.where({ table_id })
+		.update({ reservation_id: null, occupied: false });
+}
 module.exports = {
 	list,
 	create,
 	update,
 	read,
 	readReservation,
+	delete: destroy,
 };
