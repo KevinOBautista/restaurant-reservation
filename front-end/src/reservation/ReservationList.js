@@ -8,7 +8,7 @@ function ReservationList({ reservations }) {
 	return (
 		<div className="reservations row">
 			{reservations.length > 0 && mappedReservations}
-			{reservations.length === 0 && "No reservations"}
+			{reservations.length === 0 && "No reservations found"}
 		</div>
 	);
 }
