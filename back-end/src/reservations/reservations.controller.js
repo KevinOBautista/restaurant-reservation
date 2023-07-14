@@ -76,6 +76,9 @@ async function list(req, res) {
 	if (req.query.date) {
 		const data = await service.listWithQuery(req.query.date);
 		res.json({ data });
+	} else if (req.query.mobile_number) {
+		const data = await service.search(req.query.mobile_number);
+		res.json({ data });
 	} else {
 		const data = await service.list();
 		res.json({ data });

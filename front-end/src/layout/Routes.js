@@ -8,6 +8,7 @@ import ReservationForm from "../reservation/ReservationForm";
 import useQuery from "../utils/useQuery";
 import TableForm from "../tables/TableForm";
 import Seat from "../reservation/Seat";
+import Search from "../search/Search";
 
 /**
  * Defines all the routes for the application.
@@ -31,6 +32,9 @@ function Routes() {
 			</Route>
 			<Route path="/reservations/new">
 				<ReservationForm />
+			</Route>
+			<Route path="/search">
+				<Search />
 			</Route>
 			<Route exact={true} path="/reservations">
 				<Redirect to={"/dashboard"} />
