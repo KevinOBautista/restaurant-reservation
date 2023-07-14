@@ -3,6 +3,7 @@
  */
 
 const service = require("./tables.service");
+const reservationService = require("../reservations/reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const hasProperties = require("../errors/hasProperties");
 const hasRequiredProperties = hasProperties("table_name", "capacity");
@@ -25,6 +26,19 @@ function tableVal(req, res, next) {
 	next();
 }
 
+async function getReservation(req, res, next) {
+	const { reservation_id } = res.locals.table;
+	const reservation = await service.readReservation(reservation_id);
+	if (!reservation) {
+		return next({
+			status: 404,
+			message: `Reservation ${reservation_id} cannot be found.`,
+		});
+	}
+	res.locals.reservation = reservation;
+	next();
+}
+
 async function checkTable(req, res, next) {
 	const reservation_id = req.body.data.reservation_id;
 	const reservation = await service.readReservation(reservation_id);
@@ -34,6 +48,14 @@ async function checkTable(req, res, next) {
 			message: `Reservation ${reservation_id} cannot be found.`,
 		});
 	}
+	res.locals.reservation = reservation;
+	if (reservation.status === "seated") {
+		const error = new Error(
+			`Reservation status is ${reservation.status} already`
+		);
+		error.status = 400;
+		throw error;
+	}
 	const table = res.locals.table;
 	if (table.capacity < reservation.people) {
 		const error = new Error(
@@ -42,7 +64,7 @@ async function checkTable(req, res, next) {
 		error.status = 400;
 		throw error;
 	}
-	if (table.occupied) {
+	if (table.reservation_id) {
 		const error = new Error(`Table ${table.table_id} is occupied`);
 		error.status = 400;
 		throw error;
@@ -52,7 +74,7 @@ async function checkTable(req, res, next) {
 
 function tableNotOccupied(req, res, next) {
 	const table = res.locals.table;
-	if (!table.occupied) {
+	if (!table.reservation_id) {
 		const error = new Error(`Table ${table.table_id} is not occupied`);
 		error.status = 400;
 		throw error;
@@ -88,17 +110,22 @@ async function update(req, res) {
 	const updatedTable = {
 		...res.locals.table,
 		...req.body.data,
-		occupied: true,
 	};
+	await reservationService.update({
+		...res.locals.reservation,
+		status: "seated",
+	});
 	const data = await service.update(updatedTable);
 	res.json({ data });
 }
 
-function destroy(req, res, next) {
-	service
-		.delete(res.locals.table.table_id)
-		.then(() => res.sendStatus(200))
-		.catch(next);
+async function destroy(req, res, next) {
+	await service.delete(res.locals.table.table_id);
+	await reservationService.update({
+		...res.locals.reservation,
+		status: "finished",
+	});
+	res.sendStatus(200);
 }
 module.exports = {
 	list: asyncErrorBoundary(list),
@@ -118,6 +145,7 @@ module.exports = {
 	delete: [
 		asyncErrorBoundary(tableExists),
 		asyncErrorBoundary(tableNotOccupied),
+		asyncErrorBoundary(getReservation),
 		asyncErrorBoundary(destroy),
 	],
 };

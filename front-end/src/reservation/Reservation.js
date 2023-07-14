@@ -9,6 +9,7 @@ function Reservation({ reservation }) {
 		mobile_number,
 		reservation_time,
 		people,
+		status,
 	} = reservation;
 	return (
 		<div
@@ -25,13 +26,16 @@ function Reservation({ reservation }) {
 				<h5 className="card-title">{reservation_time}</h5>
 				<p className="card-text">Party Size: {people}</p>
 				<p className="card-text">{mobile_number}</p>
+				<h4 data-reservation-id-status={reservation_id}>{status}</h4>
 			</div>
-			<Link
-				className="btn btn-primary mb-2"
-				to={`/reservations/${reservation_id}/seat`}
-			>
-				Seat
-			</Link>
+			{status === "booked" && (
+				<Link
+					className="btn btn-primary mb-2"
+					to={`/reservations/${reservation_id}/seat`}
+				>
+					Seat
+				</Link>
+			)}
 		</div>
 	);
 }

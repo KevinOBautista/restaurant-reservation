@@ -23,9 +23,7 @@ function readReservation(reservationId) {
 }
 
 function destroy(table_id) {
-	return knex("tables")
-		.where({ table_id })
-		.update({ reservation_id: null, occupied: false });
+	return knex("tables").where({ table_id }).update({ reservation_id: null });
 }
 module.exports = {
 	list,
