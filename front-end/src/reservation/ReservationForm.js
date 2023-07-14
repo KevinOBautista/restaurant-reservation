@@ -11,6 +11,7 @@ function ReservationForm() {
 		reservation_date: "",
 		reservation_time: "",
 		people: "",
+		status: "booked",
 	};
 	const [formData, setFormData] = useState(initialFormData);
 	const [reservationsError, setReservationsError] = useState(null);

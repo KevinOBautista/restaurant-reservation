@@ -95,13 +95,13 @@ export async function createTable(table, signal) {
 	return await fetchJson(url, options, {});
 }
 /**
- *'update' reservation when seating someone
+ *'update' table when seating someone
  * @param reservation
  * reservation_id getting seated
  * @param table_id
  * table_id where getting seated
  */
-export async function updateReservation(reservation, table_id, signal) {
+export async function updateTable(reservation, table_id, signal) {
 	const url = `${API_BASE_URL}/tables/${table_id}/seat`;
 	const options = {
 		method: "PUT",
@@ -118,6 +118,24 @@ export async function finishTable(table_id, reservation, signal) {
 		method: "DELETE",
 		headers,
 		body: JSON.stringify({ data: { reservation_id: reservation } }),
+		signal,
+	};
+	return await fetchJson(url, options, {});
+}
+
+/**
+ *'update' reservations status
+ * @param reservation_id
+ * reservation_id status getting updated 'Integer'
+ * @param status
+ * status which is getting updated to 'String'
+ */
+export async function updateReservation(reservation_id, status, signal) {
+	const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
+	const options = {
+		method: "PUT",
+		headers,
+		body: JSON.stringify({ data: { status: status } }),
 		signal,
 	};
 	return await fetchJson(url, options, {});

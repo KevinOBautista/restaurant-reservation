@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { listReservations, listTables, finishTable } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { today, next, previous } from "../utils/date-time";
-import ReservationList from "./ReservationList";
+import ReservationList from "../reservation/ReservationList";
 import DateButtons from "./DateButtons";
 import TableList from "../tables/TableList";
 

@@ -5,10 +5,10 @@ import {
 } from "react-router-dom/cjs/react-router-dom.min";
 import { listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
-import { updateReservation } from "../utils/api";
+import { updateTable } from "../utils/api";
 function Seat() {
 	const initialFormData = {
-		table_id: "1",
+		table_id: "",
 	};
 	const [tables, setTables] = useState([]);
 	const [tablesError, setTablesError] = useState(null);
@@ -38,7 +38,7 @@ function Seat() {
 		try {
 			formData.table_id = Number(formData.table_id);
 			console.log("Submitted with: ", formData);
-			await updateReservation(params.reservation_id, formData.table_id);
+			await updateTable(params.reservation_id, formData.table_id);
 			setFormData({ ...initialFormData });
 			history.push("/dashboard");
 		} catch (error) {
