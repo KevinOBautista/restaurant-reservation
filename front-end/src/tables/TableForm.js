@@ -27,7 +27,6 @@ function TableForm() {
 		event.preventDefault();
 		try {
 			formData.capacity = Number(formData.capacity);
-			console.log("Submitted with: ", formData);
 			await createTable(formData);
 			setFormData({ ...initialFormData });
 			history.push("/dashboard");

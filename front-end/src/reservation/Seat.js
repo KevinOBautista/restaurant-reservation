@@ -8,7 +8,7 @@ import ErrorAlert from "../layout/ErrorAlert";
 import { updateTable } from "../utils/api";
 function Seat() {
 	const initialFormData = {
-		table_id: "",
+		table_id: "1",
 	};
 	const [tables, setTables] = useState([]);
 	const [tablesError, setTablesError] = useState(null);

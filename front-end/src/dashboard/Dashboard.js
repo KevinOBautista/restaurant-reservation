@@ -29,10 +29,8 @@ function Dashboard({ date }) {
 		listTables(abortController.signal).then(setTables).catch(setTablesError);
 		return () => abortController.abort();
 	}
-	function onFinish(table_id, reservation_id) {
-		finishTable(table_id, reservation_id)
-			.then(loadDashboard)
-			.catch(setTablesError);
+	function onFinish(table_id) {
+		finishTable(table_id).then(loadDashboard).catch(setTablesError);
 	}
 	return (
 		<main>

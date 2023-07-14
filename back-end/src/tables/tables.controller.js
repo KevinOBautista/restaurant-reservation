@@ -125,7 +125,7 @@ async function destroy(req, res, next) {
 		...res.locals.reservation,
 		status: "finished",
 	});
-	res.sendStatus(200);
+	res.status(200).json({});
 }
 module.exports = {
 	list: asyncErrorBoundary(list),

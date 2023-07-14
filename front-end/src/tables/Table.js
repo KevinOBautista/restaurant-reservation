@@ -4,10 +4,10 @@ function Table({ table, onFinish }) {
 	const { table_id, table_name, capacity, reservation_id } = table;
 	function finish() {
 		const result = window.confirm(
-			"Is this table ready to seat new guests?\nThis cannot be undone."
+			"Is this table ready to seat new guests?This cannot be undone."
 		);
 		if (result) {
-			onFinish(table_id, reservation_id);
+			onFinish(table_id);
 		}
 	}
 	return (
