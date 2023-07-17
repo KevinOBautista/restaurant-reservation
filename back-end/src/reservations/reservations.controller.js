@@ -57,11 +57,16 @@ function statusVal2(req, res, next) {
 		error.status = 400;
 		throw error;
 	}
-	if (status == "booked" || status == "seated" || status == "finished") {
+	if (
+		status == "booked" ||
+		status == "seated" ||
+		status == "finished" ||
+		status == "cancelled"
+	) {
 		next();
 	} else {
 		const error = new Error(
-			`${status} is not allowed change to either 'booked' or 'seated'`
+			`${status} is not allowed change to either 'booked', 'seated' or 'cancelled'`
 		);
 		error.status = 400;
 		throw error;
@@ -99,7 +104,6 @@ async function update(req, res) {
 	data = data[0];
 	res.json({ data });
 }
-
 module.exports = {
 	list: asyncErrorBoundary(list),
 	create: [
@@ -112,10 +116,20 @@ module.exports = {
 		asyncErrorBoundary(create),
 	],
 	read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
-	update: [
+	updateStatus: [
 		asyncErrorBoundary(hasStatus),
 		asyncErrorBoundary(reservationExists),
 		asyncErrorBoundary(statusVal2),
+		asyncErrorBoundary(update),
+	],
+	update: [
+		asyncErrorBoundary(hasRequiredProperties),
+		asyncErrorBoundary(hasCheckedProperties),
+		asyncErrorBoundary(timeValidation),
+		asyncErrorBoundary(tuesdayVal),
+		asyncErrorBoundary(pastReservation),
+		asyncErrorBoundary(createStatusVal),
+		asyncErrorBoundary(reservationExists),
 		asyncErrorBoundary(update),
 	],
 };

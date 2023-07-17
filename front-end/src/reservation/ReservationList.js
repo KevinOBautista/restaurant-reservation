@@ -1,9 +1,13 @@
 import React from "react";
 import Reservation from "./Reservation";
 
-function ReservationList({ reservations }) {
+function ReservationList({ reservations, onCancel }) {
 	const mappedReservations = reservations.map((currentReservation, index) => (
-		<Reservation reservation={currentReservation} key={index} />
+		<Reservation
+			reservation={currentReservation}
+			key={index}
+			onCancel={onCancel}
+		/>
 	));
 	return (
 		<div className="reservations row">

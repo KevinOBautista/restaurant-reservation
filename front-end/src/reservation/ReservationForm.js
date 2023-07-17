@@ -1,47 +1,13 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { createReservation } from "../utils/api";
-import ErrorAlert from "../layout/ErrorAlert";
+import React from "react";
 
-function ReservationForm() {
-	const initialFormData = {
-		first_name: "",
-		last_name: "",
-		mobile_number: "",
-		reservation_date: "",
-		reservation_time: "",
-		people: "",
-		status: "booked",
-	};
-	const [formData, setFormData] = useState(initialFormData);
-	const [reservationsError, setReservationsError] = useState(null);
-	const history = useHistory();
-
-	function handleChange({ target }) {
-		setFormData({
-			...formData,
-			[target.name]: target.value,
-		});
-	}
-	function cancelHandler(event) {
-		history.goBack();
-	}
-	async function submitHandler(event) {
-		setReservationsError(null);
-		event.preventDefault();
-		try {
-			const date = formData.reservation_date;
-			formData.people = Number(formData.people);
-			await createReservation(formData);
-			setFormData({ ...initialFormData });
-			history.push(`/dashboard?date=${date}`);
-		} catch (error) {
-			setReservationsError(error);
-		}
-	}
+function ReservationForm({
+	formData,
+	handleChange,
+	submitHandler,
+	cancelHandler,
+}) {
 	return (
 		<div className="createReservation">
-			<h1>New Reservation</h1>
 			<form onSubmit={submitHandler}>
 				<div className="mb-3">
 					<label htmlFor="first_name">First Name</label>
@@ -87,7 +53,7 @@ function ReservationForm() {
 						name="reservation_date"
 						type="date"
 						onChange={handleChange}
-						value={formData.reservation_date}
+						value={formData.reservation_date.substring(0, 10)}
 						placeholder="YYYY-MM-DD"
 						pattern="\d{4}-\d{2}-\d{2}"
 					/>
@@ -117,7 +83,6 @@ function ReservationForm() {
 						placeholder="Ex: 3"
 					/>
 				</div>
-				<ErrorAlert error={reservationsError} />
 				<button onClick={cancelHandler} className="btn btn-secondary mr-2">
 					Cancel
 				</button>
