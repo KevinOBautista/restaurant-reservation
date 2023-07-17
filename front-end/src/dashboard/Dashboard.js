@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { listReservations, listTables, finishTable } from "../utils/api";
+import {
+	listReservations,
+	listTables,
+	finishTable,
+	updateReservation,
+} from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { today, next, previous } from "../utils/date-time";
 import ReservationList from "../reservation/ReservationList";
@@ -29,6 +34,16 @@ function Dashboard({ date }) {
 		listTables(abortController.signal).then(setTables).catch(setTablesError);
 		return () => abortController.abort();
 	}
+
+	function onCancel(reservation_id) {
+		const abortController = new AbortController();
+		updateReservation(reservation_id, "cancelled", abortController.signal)
+			.then(loadDashboard)
+			.catch(setReservationsError);
+
+		return () => abortController.abort();
+	}
+
 	function onFinish(table_id) {
 		finishTable(table_id).then(loadDashboard).catch(setTablesError);
 	}
@@ -46,7 +61,7 @@ function Dashboard({ date }) {
 						today={`/dashboard?date=${today()}`}
 						next={`/dashboard?date=${next(date)}`}
 					/>
-					<ReservationList reservations={reservations} />
+					<ReservationList reservations={reservations} onCancel={onCancel} />
 				</div>
 				<div className="col-md-6">
 					<TableList onFinish={onFinish} tables={tables} />
