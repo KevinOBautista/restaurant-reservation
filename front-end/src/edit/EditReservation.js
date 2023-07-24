@@ -59,7 +59,7 @@ function EditReservation() {
 	}
 	return (
 		<main>
-			<h1>Edit Reservation</h1>
+			<h1 className="text-center">Edit Reservation</h1>
 			<ReservationForm
 				formData={reservation}
 				handleChange={handleChange}

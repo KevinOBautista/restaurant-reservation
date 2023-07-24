@@ -42,7 +42,7 @@ function CreateReservation() {
 	}
 	return (
 		<main>
-			<h1>New Reservation</h1>
+			<h1 className="text-center">New Reservation</h1>
 			<ReservationForm
 				formData={formData}
 				handleChange={handleChange}

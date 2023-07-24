@@ -27,11 +27,13 @@ function Search() {
 		});
 	}
 	return (
-		<main>
+		<main className="text-center">
 			<h1>Search</h1>
-			<form onSubmit={submitHandler} className="row mb-3">
+			<form
+				onSubmit={submitHandler}
+				className="row mb-3 justify-content-center"
+			>
 				<div className="mb-3 col-6">
-					<span className="oi oi-magnifying-glass" />
 					<label htmlFor="mobile_number">Mobile Number</label>
 					<input
 						className="form-control"
@@ -43,7 +45,8 @@ function Search() {
 						placeholder="Enter a customer's phone number"
 					/>
 				</div>
-				<button type="submit" className="btn btn-primary col-2">
+				<button type="submit" className="btn btn-primary col-2 my-3">
+					<span className="oi oi-magnifying-glass" />
 					Find
 				</button>
 			</form>

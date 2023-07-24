@@ -21,20 +21,59 @@ function Reservation({ reservation, onCancel }) {
 	}
 	return (
 		<div
-			className="card text-center col-md-6"
+			className="card col-md-6 text-center"
 			id={reservation_id}
 			key={reservation_id}
 		>
-			<div className="card-header">
+			<div className="card-header text-center">
 				<h4>
 					{first_name} {last_name}
 				</h4>
 			</div>
 			<div className="card-body">
-				<h5 className="card-title">{reservation_time}</h5>
+				<div>
+					<h5 className="card-title">
+						<span className="oi oi-clock" /> {reservation_time}
+					</h5>
+				</div>
 				<p className="card-text">Party Size: {people}</p>
-				<p className="card-text">{mobile_number}</p>
-				<h4 data-reservation-id-status={reservation_id}>{status}</h4>
+				<p className="card-text">
+					<span className="oi oi-phone" /> {mobile_number}
+				</p>
+				<div>
+					{status === "booked" && (
+						<h4
+							className="text-primary"
+							data-reservation-id-status={reservation_id}
+						>
+							{status}
+						</h4>
+					)}
+					{status === "seated" && (
+						<h4
+							className="text-success"
+							data-reservation-id-status={reservation_id}
+						>
+							{status}
+						</h4>
+					)}
+					{status === "cancelled" && (
+						<h4
+							className="text-danger"
+							data-reservation-id-status={reservation_id}
+						>
+							{status}
+						</h4>
+					)}
+					{status === "finished" && (
+						<h4
+							className="text-secondary"
+							data-reservation-id-status={reservation_id}
+						>
+							{status}
+						</h4>
+					)}
+				</div>
 			</div>
 			{status !== "cancelled" && (
 				<button

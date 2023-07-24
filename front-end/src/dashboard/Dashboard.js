@@ -49,21 +49,24 @@ function Dashboard({ date }) {
 	}
 	return (
 		<main>
-			<h1>Dashboard</h1>
+			<div className="header text-center">
+				<h1 className="">Dashboard</h1>
+				<DateButtons
+					previous={`/dashboard?date=${previous(date)}`}
+					today={`/dashboard?date=${today()}`}
+					next={`/dashboard?date=${next(date)}`}
+				/>
+			</div>
 			<div className="row">
 				<div className="col">
-					<div className="d-md-flex mb-3">
-						<h4 className="box-title mb-0">Reservations for {date}</h4>
-					</div>
+					<h4 className="box-title mb-0 text-center">
+						Reservations for: {date}
+					</h4>
 					<ErrorAlert error={reservationsError} />
-					<DateButtons
-						previous={`/dashboard?date=${previous(date)}`}
-						today={`/dashboard?date=${today()}`}
-						next={`/dashboard?date=${next(date)}`}
-					/>
 					<ReservationList reservations={reservations} onCancel={onCancel} />
 				</div>
 				<div className="col-md-6">
+					<h4 className="box-title mb-0 text-center">Tables</h4>
 					<TableList onFinish={onFinish} tables={tables} />
 					<ErrorAlert error={tablesError} />
 				</div>

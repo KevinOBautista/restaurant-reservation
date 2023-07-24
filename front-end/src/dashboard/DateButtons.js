@@ -3,7 +3,11 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 function DateButtons({ previous, today, next }) {
 	return (
-		<div className="btn-group" role="group" aria-label="navigation buttons">
+		<div
+			className="btn-group row mb-3"
+			role="group"
+			aria-label="navigation buttons"
+		>
 			<Link className="btn btn-secondary" to={previous}>
 				<span className="oi oi-chevron-left" />
 				&nbsp;Previous

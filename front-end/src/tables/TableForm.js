@@ -36,7 +36,7 @@ function TableForm() {
 	}
 	return (
 		<main>
-			<h1>New Table</h1>
+			<h1 className="text-center">New Table</h1>
 			<form onSubmit={submitHandler}>
 				<div className="mb-3">
 					<label htmlFor="table_name">Table Name</label>
