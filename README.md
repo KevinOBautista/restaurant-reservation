@@ -49,44 +49,44 @@ Access backend live at https://restaurant-reservation-api-qjtm.onrender.com.
 
 Dashboard Page offers all current reservations for that date and tables
 
-![Dashboard](\assets\dashboard.PNG?raw=true "Dashboard")
+![Dashboard](/assets/dashboard.PNG?raw=true "Dashboard")
 
 #### New Reservation:
 
 When provided with the required contact details to proceed with the reservation it would get inputed in the New Reservation Tab:
 
-![New Reservation](\assets\newReservation.PNG?raw=true "New Reservation")
+![New Reservation](/assets/newReservation.PNG?raw=true "New Reservation")
 
 #### New Table:
 
 New table page allows tables to be added, which would show in dashboard
-![newTable](\assets\newTable.PNG?raw=true "newTable")
+![newTable](/assets/newTable.PNG?raw=true "newTable")
 
 #### Search:
 
 Allows users to search based on mobile numbers. Shows all reservations made with that phone number includes finished and cancelled.
 
-![Search](\assets\search.PNG?raw=true "Search")
+![Search](/assets/search.PNG?raw=true "Search")
 
 #### Editing Reservations:
 
 After clicking edit on a reservation it would take you to edit page where you can edit anything on the reservation
 
-![Edit](\assets\edit.PNG?raw=true "Edit")
+![Edit](/assets/edit.PNG?raw=true "Edit")
 
 #### Seating:
 
 Clicking seat on a reservation allows to seat customers at a table when they arrive
 
-![Seat](\assets\seat.PNG?raw=true "Seat")
+![Seat](/assets/seat.PNG?raw=true "Seat")
 
 Then dashboard shows which tables are occupied and which reservations are seated:
 
-![occupied](\assets\occupied.PNG?raw=true "occupied")
+![occupied](/assets/occupied.PNG?raw=true "occupied")
 
 After the table is done clicking 'Finish' promps:
 
-![window](\assets\window.PNG?raw=true "window")
+![window](/assets/window.PNG?raw=true "window")
 
 After clicking OK finishes the reservation and removes it from dashboard
 
